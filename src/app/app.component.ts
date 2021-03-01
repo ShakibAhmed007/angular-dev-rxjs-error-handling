@@ -1,4 +1,5 @@
 import { Component, OnInit, VERSION } from "@angular/core";
+import { catchError } from "rxjs/operators";
 import { DemoErrorService } from "./demo-error.service";
 
 @Component({
@@ -13,11 +14,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.errService
-      .getHttpResponse()
+      .getHttpErrorResponse()
       .subscribe(
         res => console.log(res),
         err => console.log(err),
-        () => console.log("Http Response completed")
+        () => console.log("Http Request completed")
       );
   }
 }
