@@ -7,7 +7,7 @@ import { DemoErrorService } from "./demo-error.service";
 
 @NgModule({
   imports: [BrowserModule, FormsModule],
-  declarations: [AppComponent, HelloComponent, DemoErrorComponent],
+  declarations: [AppComponent, HelloComponent],
   bootstrap: [AppComponent],
   providers: [DemoErrorService]
 })
