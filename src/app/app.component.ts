@@ -13,6 +13,9 @@ export class AppComponent implements OnInit {
   constructor(private errService: DemoErrorService) {}
 
   ngOnInit(): void {
+  }
+
+  getResponse(){
     this.errService
       .getHttpErrorResponse()
       .subscribe(
