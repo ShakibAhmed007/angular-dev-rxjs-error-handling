@@ -1,4 +1,5 @@
 import { Component, OnInit, VERSION } from "@angular/core";
+import { of, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { DemoErrorService } from "./demo-error.service";
 
@@ -12,15 +13,61 @@ export class AppComponent implements OnInit {
 
   constructor(private errService: DemoErrorService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  getResponse(){
+  /*
+   * Error handling in subscribe block
+   */
+  // getErrorResponse() {
+  //   this.errService
+  //     .getHttpErrorResponse()
+  //     .subscribe(
+  //       res => console.log("Http response ---> ", res),
+  //       err => console.log("Http error ---> ", err),
+  //       () => console.log("Http Request completed")
+  //     );
+  // }
+
+  /**
+   * Error handling using pipe,catchError and return an empty observable using of
+   */
+  // getErrorResponse() {
+  //   this.errService
+  //     .getHttpErrorResponse()
+  //     .pipe(catchError(err => of([])))
+  //     .subscribe(
+  //       res => console.log("Http response ---> ", res),
+  //       err => console.log("Http error ---> ", err),
+  //       () => console.log("Http Request completed")
+  //     );
+  // }
+
+  /**
+   * Error handling using pipe,catchError and rethrow error
+   */
+  getErrorResponse() {
     this.errService
       .getHttpErrorResponse()
+      .pipe(
+        catchError(err => {
+          console.log("Handling error locally and rethrowing it...", err);
+          return throwError(err);
+        })
+      )
       .subscribe(
-        res => console.log(res),
-        err => console.log(err),
+        res => console.log("Http response ---> ", res),
+        err => console.log("Http error ---> ", err),
+        () => console.log("Http Request completed")
+      );
+  }
+
+  getSuccessResponse() {
+    this.errService
+      .getHttpSuccessResponse()
+      .pipe(catchError(err => of([])))
+      .subscribe(
+        res => console.log("Http response ---> ", res),
+        err => console.log("Http error ---> ", err),
         () => console.log("Http Request completed")
       );
   }
